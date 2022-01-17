@@ -16,7 +16,7 @@ if (!function_exists('response')) {
      *
      * @return \Response|\Illuminate\Http\Response
      */
-    function response($content = '', $statusCode = 200, $headers = array())
+    function response($content = '', $statusCode = 200, $headers = [])
     {
         $responseClass = class_exists('Illuminate\Http\Response') ? '\Illuminate\Http\Response' : 'Response';
 
@@ -80,7 +80,7 @@ if (!function_exists('trans')) {
     }
 
     if (!is_array($lang_vars)) {
-        $lang_vars = array();
+        $lang_vars = [];
     }
 }
 
@@ -90,12 +90,12 @@ if (!function_exists('trans')) {
  */
 function checkRelativePathPartial($path)
 {
-    if (strpos($path, '../') !== false
-        || strpos($path, './') !== false
-        || strpos($path, '/..') !== false
-        || strpos($path, '..\\') !== false
-        || strpos($path, '\\..') !== false
-        || strpos($path, '.\\') !== false
+    if (str_contains($path, '../')
+        || str_contains($path, './')
+        || str_contains($path, '/..')
+        || str_contains($path, '..\\')
+        || str_contains($path, '\\..')
+        || str_contains($path, '.\\')
         || $path === ".."
     ) {
         return false;
@@ -152,7 +152,7 @@ function deleteFile($path, $path_thumb, $config)
     if ($config['delete_files']) {
         try {
             $ftp = ftp_con($config);
-        } catch (\FtpClient\FtpException $e) {
+        } catch (\FtpClient\FtpException) {
             return;
         }
 
@@ -217,7 +217,7 @@ function deleteDir($dir, $ftp = null, $config = null)
         try {
             $ftp->rmdir($dir);
             return true;
-        } catch (FtpClient\FtpException $e) {
+        } catch (FtpClient\FtpException) {
             return null;
         }
     } else {
@@ -263,7 +263,7 @@ function duplicate_file($old_path, $name, $ftp = null, $config = null)
             $ftp->put("/" . $new_path, $tmp, FTP_BINARY);
             unlink($tmp);
             return true;
-        } catch (FtpClient\FtpException $e) {
+        } catch (FtpClient\FtpException) {
             return null;
         }
     } else {
@@ -295,7 +295,7 @@ function rename_file($old_path, $name, $ftp = null, $config = null)
     if ($ftp) {
         try {
             return $ftp->rename("/" . $old_path, "/" . $new_path);
-        } catch (FtpClient\FtpException $e) {
+        } catch (FtpClient\FtpException) {
             return false;
         }
     } else {
@@ -415,7 +415,7 @@ function ftp_con($config)
  * @param array $config
  * @return bool
  */
-function create_img($imgfile, $imgthumb, $newwidth, $newheight = null, $option = "crop", $config = array())
+function create_img($imgfile, $imgthumb, $newwidth, $newheight = null, $option = "crop", $config = [])
 {
     $result = false;
     if (isset($config['ftp_host']) && $config['ftp_host']) {
@@ -432,8 +432,8 @@ function create_img($imgfile, $imgthumb, $newwidth, $newheight = null, $option =
         }
     }
 
-    if (file_exists($imgfile) || strpos($imgfile, 'http') === 0) {
-        if (strpos($imgfile, 'http') === 0 || image_check_memory_usage($imgfile, $newwidth, $newheight)) {
+    if (file_exists($imgfile) || str_starts_with($imgfile, 'http')) {
+        if (str_starts_with($imgfile, 'http') || image_check_memory_usage($imgfile, $newwidth, $newheight)) {
             require_once('php_image_magician.php');
             try {
                 $magicianObj = new imageLib($imgfile);
@@ -464,7 +464,7 @@ function create_img($imgfile, $imgthumb, $newwidth, $newheight = null, $option =
  */
 function makeSize($size)
 {
-    $units = array('B', 'KB', 'MB', 'GB', 'TB');
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
     $u = 0;
     while ((round($size / 1024) > 0) && ($u < 4)) {
         $size = $size / 1024;
@@ -506,7 +506,7 @@ function folder_info($path, $count_hidden = true)
         }
     }
 
-    return array($total_size, $files_count, $folders_count);
+    return [$total_size, $files_count, $folders_count];
 }
 
 /**
@@ -698,9 +698,9 @@ function check_extension($extension, $config)
 {
     $extension = fix_strtolower($extension);
     if ((!$config['ext_blacklist'] && !in_array($extension, $config['ext'])) || ($config['ext_blacklist'] && in_array(
-                $extension,
-                $config['ext_blacklist']
-            ))) {
+        $extension,
+        $config['ext_blacklist']
+    ))) {
         return false;
     }
     return true;
@@ -747,13 +747,13 @@ function fix_filename($str, $config, $is_folder = false)
         $str = preg_replace("/[^a-zA-Z0-9\.\[\]_| -]/", '', $str);
     }
 
-    $str = str_replace(array('"', "'", "/", "\\"), "", $str);
+    $str = str_replace(['"', "'", "/", "\\"], "", $str);
     $str = strip_tags($str);
 
     // Empty or incorrectly transliterated filename.
     // Here is a point: a good file UNKNOWN_LANGUAGE.jpg could become .jpg in previous code.
     // So we add that default 'file' name to fix that issue.
-    if (!$config['empty_filename'] && strpos($str, '.') === 0 && $is_folder === false) {
+    if (!$config['empty_filename'] && str_starts_with($str, '.') && $is_folder === false) {
         $str = 'file' . $str;
     }
 
@@ -858,11 +858,11 @@ function image_check_memory_usage($img, $max_breedte, $max_hoogte)
         if (ini_get('memory_limit') > 0) {
             $mem = ini_get('memory_limit');
             $memory_limit = 0;
-            if (strpos($mem, 'M') !== false) {
-                $memory_limit = abs(intval(str_replace(array('M'), '', $mem) * 1024 * 1024));
+            if (str_contains($mem, 'M')) {
+                $memory_limit = abs(intval(str_replace(['M'], '', $mem) * 1024 * 1024));
             }
-            if (strpos($mem, 'G') !== false) {
-                $memory_limit = abs(intval(str_replace(array('G'), '', $mem) * 1024 * 1024 * 1024));
+            if (str_contains($mem, 'G')) {
+                $memory_limit = abs(intval(str_replace(['G'], '', $mem) * 1024 * 1024 * 1024));
             }
 
             if (($image_properties = getimagesize($img)) === false) {
@@ -920,7 +920,7 @@ function image_check_memory_usage($img, $max_breedte, $max_hoogte)
 if (!function_exists('ends_with')) {
     function ends_with($haystack, $needle)
     {
-        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+        return $needle === "" || str_ends_with($haystack, $needle);
     }
 }
 
@@ -1014,12 +1014,12 @@ function new_thumbnails_creation($targetPath, $targetFile, $name, $current_path,
 function get_file_by_url($url)
 {
     if (ini_get('allow_url_fopen')) {
-        $arrContextOptions = array(
-            "ssl" => array(
+        $arrContextOptions = [
+            "ssl" => [
                 "verify_peer" => false,
                 "verify_peer_name" => false,
-            ),
-        );
+            ],
+        ];
         return file_get_contents($url, false, stream_context_create($arrContextOptions));
     }
     if (!function_exists('curl_version')) {
@@ -1291,7 +1291,7 @@ function debugger($input, $trace = false, $halt = false)
 function is_php($version = '5.0.0')
 {
     static $phpVer;
-    $version = (string)$version;
+    $version = (string) $version;
 
     if (!isset($phpVer[$version])) {
         $phpVer[$version] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;

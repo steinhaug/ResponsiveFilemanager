@@ -52,7 +52,7 @@ try {
         if (file_exists($path . "config.php")) {
             $configMain = $config;
             $configTemp = include $path . 'config.php';
-            if(is_array($configTemp) && count($configTemp) > 0){
+            if (is_array($configTemp) && count($configTemp) > 0) {
                 $config = array_merge($configMain, $configTemp);
                 $config['ext'] = array_merge(
                     $config['ext_img'],
@@ -61,8 +61,7 @@ try {
                     $config['ext_video'],
                     $config['ext_music']
                 );
-            }
-            else{
+            } else {
                 $config = $configMain;
             }
             //TODO switch to array
@@ -97,12 +96,12 @@ try {
                 curl_close($ch);
                 fclose($fp);
 
-                $_FILES['files'] = array(
-                    'name' => array(basename($_POST['url'])),
-                    'tmp_name' => array($temp),
-                    'size' => array(filesize($temp)),
-                    'type' => null
-                );
+                $_FILES['files'] = [
+                    'name' => [basename($_POST['url'])],
+                    'tmp_name' => [$temp],
+                    'size' => [filesize($temp)],
+                    'type' => null,
+                ];
             } else {
                 throw new Exception('Is not a valid URL.');
             }
@@ -132,16 +131,15 @@ try {
     }
     $_FILES['files']['name'][0] = fix_filename($filename, $config);
 
-    if(!$_FILES['files']['type'][0]){
+    if (!$_FILES['files']['type'][0]) {
         $_FILES['files']['type'][0] = $mime_type;
-
     }
     // LowerCase
     if ($config['lower_case']) {
         $_FILES['files']['name'][0] = fix_strtolower($_FILES['files']['name'][0]);
     }
     if (!checkresultingsize($_FILES['files']['size'][0])) {
-    	if ( !isset($upload_handler->response['files'][0]) ) {
+        if (!isset($upload_handler->response['files'][0])) {
             // Avoid " Warning: Creating default object from empty value ... "
             $upload_handler->response['files'][0] = new stdClass();
         }
@@ -150,7 +148,7 @@ try {
         exit();
     }
 
-    $uploadConfig = array(
+    $uploadConfig = [
         'config' => $config,
         'storeFolder' => $storeFolder,
         'storeFolderThumb' => $storeFolderThumb,
@@ -160,8 +158,8 @@ try {
         'mkdir_mode' => $config['folderPermission'],
         'max_file_size' => $config['MaxSizeUpload'] * 1024 * 1024,
         'correct_image_extensions' => true,
-        'print_response' => false
-    );
+        'print_response' => false,
+    ];
 
     if (!$config['ext_blacklist']) {
         $uploadConfig['accept_file_types'] = '/\.(' . implode('|', $config['ext']) . ')$/i';
@@ -192,21 +190,25 @@ try {
     //print_r($_FILES);die();
     $upload_handler = new UploadHandler($uploadConfig, true, $messages);
 } catch (Exception $e) {
-    $return = array();
+    $return = [];
 
     if ($_FILES['files']) {
         foreach ($_FILES['files']['name'] as $i => $name) {
-            $return[] = array(
+            $return[] = [
                 'name' => $name,
                 'error' => $e->getMessage(),
                 'size' => $_FILES['files']['size'][$i],
-                'type' => $_FILES['files']['type'][$i]
-            );
+                'type' => $_FILES['files']['type'][$i],
+            ];
         }
 
-        echo json_encode(array("files" => $return));
+        echo json_encode([
+            "files" => $return,
+        ]);
         return;
     }
 
-    echo json_encode(array("error" => $e->getMessage()));
+    echo json_encode([
+        "error" => $e->getMessage(),
+    ]);
 }

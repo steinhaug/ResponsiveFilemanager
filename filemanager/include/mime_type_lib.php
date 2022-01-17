@@ -1,5 +1,6 @@
 <?php
-$mime_types = array(
+
+$mime_types = [
     "application/postscript" => "ps",
     "audio/x-aiff" => "aiff",
     "text/plain" => "txt",
@@ -171,53 +172,52 @@ $mime_types = array(
     "application/vnd.ms-powerpoint.presentation.macroEnabled.12" => "pptm",
     "application/vnd.ms-powerpoint.template.macroEnabled.12" => "potm",
     "application/vnd.ms-powerpoint.slideshow.macroEnabled.12" => "ppsm",
-);
+];
 
 
-if ( ! function_exists('get_extension_from_mime'))
-{
-    function get_extension_from_mime($mime){
+if (!function_exists('get_extension_from_mime')) {
+    function get_extension_from_mime($mime)
+    {
         global $mime_types;
-        if(strpos($mime, ';')!==FALSE){
-            $mime = substr($mime, 0,strpos($mime, ';'));
+        if (str_contains($mime, ';')) {
+            $mime = substr($mime, 0, strpos($mime, ';'));
         }
-        if(isset($mime_types[$mime])){
+        if (isset($mime_types[$mime])) {
             return $mime_types[$mime];
         }
         return '';
     }
 }
 
-if ( ! function_exists('get_file_mime_type'))
-{
+if (!function_exists('get_file_mime_type')) {
     function get_file_mime_type($filename, $debug = false)
     {
-        if (function_exists('finfo_open') && function_exists('finfo_file') && function_exists('finfo_close'))
-        {
+        if (function_exists('finfo_open') && function_exists('finfo_file') && function_exists('finfo_close')) {
             $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime_type = finfo_file($fileinfo, $filename);
             finfo_close($fileinfo);
 
-            if ( ! empty($mime_type))
-            {
-                if (true === $debug)
-                {
-                    return array( 'mime_type' => $mime_type, 'method' => 'fileinfo' );
+            if (!empty($mime_type)) {
+                if (true === $debug) {
+                    return [
+                        'mime_type' => $mime_type,
+                        'method' => 'fileinfo',
+                    ];
                 }
 
                 return $mime_type;
             }
         }
 
-        if (function_exists('mime_content_type'))
-        {
+        if (function_exists('mime_content_type')) {
             $mime_type = mime_content_type($filename);
 
-            if ( ! empty($mime_type))
-            {
-                if (true === $debug)
-                {
-                    return array( 'mime_type' => $mime_type, 'method' => 'mime_content_type' );
+            if (!empty($mime_type)) {
+                if (true === $debug) {
+                    return [
+                        'mime_type' => $mime_type,
+                        'method' => 'mime_content_type',
+                    ];
                 }
 
                 return $mime_type;
@@ -230,19 +230,22 @@ if ( ! function_exists('get_file_mime_type'))
         $tmp_array = explode('.', $filename);
         $ext = strtolower(array_pop($tmp_array));
 
-        if ( ! empty($mime_types[ $ext ]))
-        {
-            if (true === $debug)
-            {
-                return array( 'mime_type' => $mime_types[ $ext ], 'method' => 'from_array' );
+        if (!empty($mime_types[$ext])) {
+            if (true === $debug) {
+                return [
+                    'mime_type' => $mime_types[$ext],
+                    'method' => 'from_array',
+                ];
             }
 
-            return $mime_types[ $ext ];
+            return $mime_types[$ext];
         }
 
-        if (true === $debug)
-        {
-            return array( 'mime_type' => 'application/octet-stream', 'method' => 'last_resort' );
+        if (true === $debug) {
+            return [
+                'mime_type' => 'application/octet-stream',
+                'method' => 'last_resort',
+            ];
         }
 
         return 'application/octet-stream';

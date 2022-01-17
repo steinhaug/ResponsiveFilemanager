@@ -1,7 +1,6 @@
 <?php
 
-return array(
-    
+return [
     'Select' => 'არჩევა',
     'Deselect_All' => 'ყველას გაუქმება',
     'Select_All' => 'ყველას არჩევა',
@@ -44,7 +43,7 @@ return array(
     'Upload_base_help' => "	გადაიტანეთ და ჩააგდეთ ფაილები (თანამედროვე ბრაუზერებით) ან დააჭირეთ ზედა ღილაკს ფაილ(ებ)-ის დასამატებლად ",
     'Upload_add_files' => 'ფაილ(ებ)-ის დამატება',
     'Upload_start' => 'ატვირთვის დაწყება',
-    'Upload_error_messages' =>array(
+    'Upload_error_messages' => [
         1 => 'ატვირთული ფაილი აღემატება upload_max_filesize პარამეტრს php.ini– ში',
         2 => 'ატვირთული ფაილი აღემატება MAX_FILE_SIZE პარამეტრს, რომელიც მითითებულია HTML ფორმაში',
         3 => 'ფაილი მხოლოდ ნაწილობრივ იქნა გადმოწერილი',
@@ -62,8 +61,8 @@ return array(
         'max_height' => 'სურათი აღემატება მაქსიმალურ სიმაღლეს',
         'min_height' => 'სურათს მინიმალური სიმაღლე სჭირდება',
         'abort' => 'ფაილის ატვირთვა შეწყდა',
-        'image_resize' => 'სურათის ზომის შეცვლა ვერ მოხერხდა'
-    ),
+        'image_resize' => 'სურათის ზომის შეცვლა ვერ მოხერხდა',
+    ],
     'Upload_url' => 'ლინკი',
     'Type_dir' => 'საქაღალდე',
     'Type' => 'Ტიპი',
@@ -85,25 +84,30 @@ return array(
     'Copy' => 'კოპირება',
     'Cut' => 'ამოჭრა',
     'Paste' => 'ჩასმა',
-    'CB' => 'ბუფერი', 
+    'CB' => 'ბუფერი',
     'Paste_Here' => 'ჩასვით მიმდინარე საქაღალდეში',
     'Paste_Confirm' => 'გსურთ ჩასვა ამ საქაღალდეში? თუ სახელები ემთხვევა, ფაილების გადაწერა მოხდება',
     'Paste_Failed' => 'ფაილ (ებ) ის ჩასმა ვერ მოხერხდა.',
     'Clear_Clipboard' => 'გაცვლის ბუფერის გასუფთავება',
     'Clear_Clipboard_Confirm' => 'გსურთ გაცვლის ბუფერი?',
     'Files_ON_Clipboard' => 'გაცვლის ბუფერში არის ფაილები.',
-    'Copy_Cut_Size_Limit' => 'შერჩეული ფაილები / საქაღალდეები ძალიან დიდია %s. შეზღუდვა: %d MB ერთი ოპერაციისთვის', // %s = cut or copy
-    'Copy_Cut_Count_Limit' => 'არჩეულია ძალიან ბევრი ფაილი / საქაღალდე %s. შეზღუდვა: %d ფაილი ერთ ოპერაციაში', // %s = cut or copy
-    'Copy_Cut_Not_Allowed' => 'Შენ არ შეგიძლია %s ფაილები.', // %s(1) = cut or copy, %s(2) = files or folders
+    'Copy_Cut_Size_Limit' => 'შერჩეული ფაილები / საქაღალდეები ძალიან დიდია %s. შეზღუდვა: %d MB ერთი ოპერაციისთვის',
+    // %s = cut or copy
+    'Copy_Cut_Count_Limit' => 'არჩეულია ძალიან ბევრი ფაილი / საქაღალდე %s. შეზღუდვა: %d ფაილი ერთ ოპერაციაში',
+    // %s = cut or copy
+    'Copy_Cut_Not_Allowed' => 'Შენ არ შეგიძლია %s ფაილები.',
+    // %s(1) = cut or copy, %s(2) = files or folders
     'Image_Editor_No_Save' => 'სურათის შენახვა შეუძლებელია.',
     'Image_Editor_Exit' => "გასვლა",
     'Image_Editor_Save' => "შენახვა",
     'Zip_No_Extract' => 'ვერ ვიღებ. ფაილი შეიძლება დაზიანდეს.',
     'Zip_Invalid' => 'ეს გაფართოება არ არის მხარდაჭერილი. ნებადართულია: zip, gz, tar.',
     'Dir_No_Write' => 'არჩეული დირექტორიაშია არ იწერება.',
-    'Function_Disabled' => 'ფუნქცია %s სერვერზე გამორთულია.', // %s = cut or copy
+    'Function_Disabled' => 'ფუნქცია %s სერვერზე გამორთულია.',
+    // %s = cut or copy
     'File_Permission' => 'ფაილის უფლებები',
-    'File_Permission_Not_Allowed' => 'ცვლილების უფლება %s არაა ნებადართული.', // %s = files or folders
+    'File_Permission_Not_Allowed' => 'ცვლილების უფლება %s არაა ნებადართული.',
+    // %s = files or folders
     'File_Permission_Recursive' => 'შევცვალოთ?',
     'File_Permission_Wrong_Mode' => "ნებრთვები არსწორდაა მითითებული.",
     'User' => 'მომხმარებლი',
@@ -113,14 +117,16 @@ return array(
     'Lang_Not_Found' => 'ასეთ ენას ვერ პოულობთ',
     'Lang_Change' => 'ენის შეცვლა',
     'File_Not_Found' => 'ფაილის პოვნა შეუძლებელია',
-    'File_Open_Edit_Not_Allowed' => 'თქვენ არ შეგიძლიათ  %s  ამფაილთან ურთიერთობა', // %s = open or edit
+    'File_Open_Edit_Not_Allowed' => 'თქვენ არ შეგიძლიათ  %s  ამფაილთან ურთიერთობა',
+    // %s = open or edit
     'Edit' => 'რედაქტირება',
     'Edit_File' => "ფაილის შინაარსის რედაქტირება",
     'File_Save_OK' => "ფაილი წარმატებით შეინახა",
     'File_Save_Error' => "ფაილის შენახვისას მოხდა შეცდომა",
     'New_File' => 'ახალი ფაილი',
     'No_Extension' => 'საჭიროა ფაილის გაფართოების დამატება',
-    'Valid_Extensions' => 'დაშვებული ფაილის გაფართოებები: %s', // %s = txt,log etc.
+    'Valid_Extensions' => 'დაშვებული ფაილის გაფართოებები: %s',
+    // %s = txt,log etc.
     'Upload_message' => "გადაიტანეთ და ჩამოაგდეთ თქვენი ფაილი აქ ასატვირთად",
     'SERVER ERROR' => "ᲡᲔᲠᲕᲔᲠᲘᲡ ᲨᲔᲪᲓᲝᲛᲐ",
     'forbidden' => "Აკრძალული",
@@ -136,11 +142,12 @@ return array(
     'no file' => "ფაილი არ არსებობს",
     'view type number missing' => "ეს ტიპი არ არის",
     'Not enough Memory' => "არ არის საკმარისი მეხსიერება",
-    'max_size_reached' => "საქაღალდემ მიაღწია თავის მაქსიმალურ ზომას %d მბ.", //%d = max overall size
+    'max_size_reached' => "საქაღალდემ მიაღწია თავის მაქსიმალურ ზომას %d მბ.",
+    //%d = max overall size
     'B' => "ბ",
     'KB' => "კბ",
     'MB' => "მბ",
     'GB' => "გბ",
     'TB' => "ტბ",
     'total size' => "საერთო ზომა",
-);
+];
